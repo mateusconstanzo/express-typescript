@@ -1,5 +1,5 @@
-import { EntityRepository, Repository, EntityManager } from "typeorm";
-import { User } from "../entity/user.entity";
+import { EntityRepository, Repository, EntityManager } from 'typeorm';
+import { User } from '../entity/user.entity';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -10,6 +10,14 @@ export class UserRepository extends Repository<User> {
         user.password = password;
         user.active = true;
         return this.manager.save(user);
+    }
+
+    findByUsernameAndPassword(username: string, password: string) {
+        return this.findOne({
+            username: username,
+            password: password,
+            active: true
+        });
     }
 
 }

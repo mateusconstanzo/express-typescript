@@ -1,8 +1,8 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { getCustomRepository, getManager } from "typeorm";
+import { getCustomRepository, getManager } from 'typeorm';
+import { authenticate } from '../middleware';
 import { UserRepository } from '../repository/user.repository'
 import { User } from '../entity/user.entity';
-import Server from '../server';
 
 export default class UserResource {
 
@@ -13,16 +13,20 @@ export default class UserResource {
         this.init();
     }
 
-    public async getAll(req: Request, res: Response) {
+    public getAll(req: Request, res: Response) {
 
-        let userRepository = getCustomRepository(UserRepository);
-
-        userRepository.find().then(users => res.send(users));
+        getCustomRepository(UserRepository)
+            .find()
+            .then(users => res.send(users));
 
     }
 
     init() {
+
+        this.router.use(authenticate())
+
         this.router.get('/user', this.getAll);
+
     }
 
 }

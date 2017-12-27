@@ -1,6 +1,6 @@
-import Server from './server';
-
 import * as http from 'http';
+
+import Server from './server';
 
 const port = normalizePort(process.env.PORT || 3000);
 Server.express.set('port', port);

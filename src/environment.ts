@@ -1,7 +1,10 @@
 import { ConnectionOptions } from "typeorm";
 import { User } from './entity/user.entity'
+import { ExtractJwt, StrategyOptions } from 'passport-jwt'
 
-export let db: ConnectionOptions = {
+export const authHeader = "jwt";
+
+export const db: ConnectionOptions = {
     type: "mysql",
     host: "localhost",
     port: 3306,
@@ -10,4 +13,9 @@ export let db: ConnectionOptions = {
     database: "api",
     entities: [User],
     synchronize: true
+}
+
+export const passport: StrategyOptions = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme(authHeader),
+    secretOrKey: 'secret'
 }
